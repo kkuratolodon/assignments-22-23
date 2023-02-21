@@ -132,7 +132,9 @@ public class NotaGenerator {
                     } 
                     // generate nota dan diprint
                     String notaLaundry = generateNota(id, paket, berat, tanggal);
+                    System.out.println("Nota Laundry");
                     System.out.println(notaLaundry);
+                    break;
                 // exit jika 0
                 case "0":
                     exit = true;
