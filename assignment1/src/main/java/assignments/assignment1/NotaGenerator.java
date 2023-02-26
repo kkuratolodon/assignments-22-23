@@ -87,6 +87,8 @@ public class NotaGenerator {
                     
                     System.out.println("Masukkan paket laundry:");
                     String paket = input.nextLine();
+                    paket = paket.toLowerCase();
+
                     // cek selama inputnya bkn dari 3 paket yang ada, minta input terus
                     while(!paket.equals("express") && !paket.equals("fast") && !paket.equals("reguler")){
                         // kalau ? print jenis jenis paket
@@ -98,6 +100,7 @@ public class NotaGenerator {
                         }
                         System.out.println("Masukkan paket laundry:");
                         paket = input.nextLine();
+                        paket = paket.toLowerCase();
                     }
                     System.out.println("Masukkan berat cucian Anda [Kg]:");
                     String strBerat = input.nextLine(); 
@@ -201,6 +204,8 @@ public class NotaGenerator {
         }
         // tambah 7 untuk "-"
         result += 7;
+        // ambil 2 digit terakhir aja
+        result %= 100;
         // convert ke string, tambah 0 di depan jika 1 digit
         String checkSum = Integer.toString(result);
         if (checkSum.length() == 1){
