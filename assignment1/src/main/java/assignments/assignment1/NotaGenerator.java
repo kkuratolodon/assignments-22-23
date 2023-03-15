@@ -11,7 +11,6 @@ public class NotaGenerator {
      * Method main, program utama kalian berjalan disini.
      */
     public static void main(String[] args) {
-        // TODO: Implement interface menu utama
         boolean exit = false;
         while (!exit){
             // print menu dan input pilihan
