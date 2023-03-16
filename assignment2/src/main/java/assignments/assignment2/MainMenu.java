@@ -185,15 +185,15 @@ public class MainMenu {
         }
         // jika tidak ditemukan
         if(!found){
-            System.out.println("Nota dengan ID " + idNotaInt + " tidak ditemukan!");
+            System.out.println("Nota dengan ID " + idNota + " tidak ditemukan!");
             return;
         } 
         // jika ditemukan cek apakah sudah ready apa nggak
         if(!notaDiambil.getIsReady()){
-            System.out.println("Nota dengan ID " + idNotaInt + " gagal diambil!");
+            System.out.println("Nota dengan ID " + idNota + " gagal diambil!");
         } else{
             // jika sudah, hapus notanya dari list
-            System.out.println("Nota dengan ID " + idNotaInt + " berhasil diambil!");
+            System.out.println("Nota dengan ID " + idNota + " berhasil diambil!");
             notaList.remove(notaDiambil);
         }
     }
