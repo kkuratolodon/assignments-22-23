@@ -13,11 +13,11 @@ public class EmployeeSystem extends SystemCLI {
      */
     public EmployeeSystem() {
         memberList = new Member[]{
-                new Employee("Dek Depe", "akuDDP"),
-                new Employee("Depram", "musiktualembut"),
-                new Employee("Lita Duo", "gitCommitPush"),
-                new Employee("Ivan Hoshimachi", "SuamiSahSuisei"),
-        };
+            new Employee("Dek Depe", "akuDDP"),
+            new Employee("Depram", "musiktualembut"),
+            new Employee("Lita Duo", "gitCommitPush"),
+            new Employee("Ivan Hoshimachi", "SuamiSahSuisei"),
+    };
     }
 
     /**
@@ -29,7 +29,11 @@ public class EmployeeSystem extends SystemCLI {
     @Override
     protected boolean processChoice(int choice) {
         boolean logout = false;
-        // TODO:
+        switch(choice){
+            case 1 -> nyuciTime();
+            case 2 -> displayListNota();
+            case 3 -> logout = true;
+        }
         return logout;
     }
 
@@ -41,5 +45,16 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("1. It's nyuci time");
         System.out.println("2. Display List Nota");
         System.out.println("3. Logout");
+    }
+    private void nyuciTime(){
+        System.out.println("Stand back! " + loginMember.getNama() + " beginning to nyuci!");
+        for(Nota nota : notaList){
+            System.out.println(nota.kerjakan());
+        }
+    }
+    private static void displayListNota(){
+        for(Nota nota : notaList){
+            System.out.println(nota.getNotaStatus());
+        }
     }
 }
