@@ -39,6 +39,7 @@ public class LoginManager {
      * @return Member object yang berhasil mendaftar, return null jika gagal mendaftar.
      */
     public Member register(String nama, String noHp, String password) {
+        // membuat object system cli, kalau bukan null buat member baru dan dimasukan ke array
         SystemCLI systemCLI = getSystem(generateId(nama, noHp));
         if(systemCLI != null)
             return null;
@@ -47,6 +48,7 @@ public class LoginManager {
         return newMember;
     }
     public static String generateId(String nama, String nomorHP) {
+        // method generate id
         String id = "";
         id += (nama.split(" ")[0] + "-").toUpperCase();
         id += nomorHP;

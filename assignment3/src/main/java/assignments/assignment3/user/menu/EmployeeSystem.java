@@ -47,12 +47,14 @@ public class EmployeeSystem extends SystemCLI {
         System.out.println("3. Logout");
     }
     private void nyuciTime(){
+        // mengerjakan pekerjaan setiap nota
         System.out.println("Stand back! " + loginMember.getNama() + " beginning to nyuci!");
         for(Nota nota : notaList){
             System.out.println(nota.kerjakan());
         }
     }
     private static void displayListNota(){
+        // print setiap status nota
         for(Nota nota : notaList){
             System.out.println(nota.getNotaStatus());
         }

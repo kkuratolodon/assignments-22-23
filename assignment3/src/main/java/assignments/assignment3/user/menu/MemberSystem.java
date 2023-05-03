@@ -45,6 +45,7 @@ public class MemberSystem extends SystemCLI {
         memberList[memberList.length - 1] = member;
     }
     private void buatNota(){
+        // Input info info nota
         System.out.println("Masukan paket laundry:");
         showPaket();
         String paket = in.nextLine();
@@ -60,20 +61,22 @@ public class MemberSystem extends SystemCLI {
         System.out.println("Apakah kamu ingin cucianmu disetrika oleh staff professional kami?\nHanya tambah 1000 / kg :0");
         System.out.print("[Ketik x untuk tidak mau]: ");
         String input = in.nextLine();
-        if(!input.equals("x")){
+        if(!input.equalsIgnoreCase("x")){
             nota.addService(new SetrikaService());
         }
         System.out.println("Mau diantar oleh kurir kami? Dijamin aman dan cepat sampai tujuan!\nCuma 2000 / 4kg, kemudian 500 / kg");
         System.out.print("[Ketik x untuk tidak mau]: ");
         input = in.nextLine();
-        if(!input.equals("x")){
+        if(!input.equalsIgnoreCase("x")){
             nota.addService(new AntarService());
         }
+        // masukan nota ke array
         NotaManager.addNota(nota);
         loginMember.addNota(nota);
         System.out.println("Nota berhasil dibuat!");
     }
     private static void showPaket() {
+        // method untuk menunjukan paket
         System.out.println("+-------------Paket-------------+");
         System.out.println("| Express | 1 Hari | 12000 / Kg |");
         System.out.println("| Fast    | 2 Hari | 10000 / Kg |");
@@ -81,6 +84,7 @@ public class MemberSystem extends SystemCLI {
         System.out.println("+-------------------------------+");
     }
     private void detailNota(){
+        // print setiap detail nota
         for(Nota nota : loginMember.getNotaList()){
             System.out.println(nota);
         }

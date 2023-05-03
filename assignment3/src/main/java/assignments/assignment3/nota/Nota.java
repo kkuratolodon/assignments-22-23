@@ -85,11 +85,13 @@ public class Nota {
     }
 
     public String getNotaStatus(){
+        // Mereturn status nota
         return "Nota " + id + " : " + (isDone ? "Sudah selesai." : "Belum selesai.");
     }
 
     @Override
     public String toString(){
+        // membuat variabel baru result untuk menyimpan hasil nota
         String result = "";
         result += "[ID Nota = " + id + "]" + "\n";
         result += "ID    : " + member.getId() + "\n";
@@ -97,18 +99,19 @@ public class Nota {
         result += "Harga :" + "\n";
         result += String.format("%d kg x %d = %d\n", berat, baseHarga, baseHarga * berat) + "\n";
         result += "tanggal terima  : " + tanggalMasuk + "\n";
-        
+        // newCal untuk menyimpan tanggal akhir
         Calendar newCal = Calendar.getInstance();
         try {
             newCal.setTime(NotaManager.fmt.parse(tanggalMasuk));
         } catch (ParseException e) {}
-        
         newCal.add(Calendar.DATE, findSisaHari());
+        // menyimpan tanggal selesai
         tanggalSelesai = NotaManager.fmt.format(newCal.getTime());
 
         result += "tanggal selesai : " + tanggalSelesai + "\n";
         result += "--- SERVICE LIST ---" + "\n";
         result += "-Cuci @ Rp.0" + "\n";
+        // loop setiap service untuk dapat berat
         for(LaundryService service: services){
             if(service instanceof SetrikaService){
                 result += "-Setrika @ Rp." + service.getHarga(berat) + "\n";
