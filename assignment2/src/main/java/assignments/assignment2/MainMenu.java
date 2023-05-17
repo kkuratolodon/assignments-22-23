@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Scanner;
 
-import static assignments.assignment1.NotaGenerator.*;
-
 public class MainMenu {
     // inisiasi variabel" penting
     private static final Scanner input = new Scanner(System.in);

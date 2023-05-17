@@ -97,7 +97,7 @@ public class Nota {
         result += "ID    : " + member.getId() + "\n";
         result += "Paket : " + paket + "\n";
         result += "Harga :" + "\n";
-        result += String.format("%d kg x %d = %d\n", berat, baseHarga, baseHarga * berat) + "\n";
+        result += String.format("%d kg x %d = %d\n", berat, baseHarga, baseHarga * berat);
         result += "tanggal terima  : " + tanggalMasuk + "\n";
         // newCal untuk menyimpan tanggal akhir
         Calendar newCal = Calendar.getInstance();

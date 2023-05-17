@@ -6,6 +6,8 @@ import assignments.assignment3.user.Member;
 
 import static assignments.assignment3.nota.NotaManager.notaList;
 
+import java.util.Arrays;
+
 public class EmployeeSystem extends SystemCLI {
 
     /**
@@ -57,6 +59,13 @@ public class EmployeeSystem extends SystemCLI {
         // print setiap status nota
         for(Nota nota : notaList){
             System.out.println(nota.getNotaStatus());
+        }
+    }
+    public void addEmployee(Employee[] employees){
+        int n = memberList.length;
+        memberList = Arrays.copyOf(memberList, memberList.length + employees.length);
+        for(int i=n; i<memberList.length; i++){
+            memberList[i] = employees[i-n];
         }
     }
 }
