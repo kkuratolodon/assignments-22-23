@@ -30,8 +30,10 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
+        // buat 2 buttonnya dan return sbg array
         return new JButton[]{
+            new JButton("It's nyuci time"),
+            new JButton("Display List Nota")
         };
     }
 
@@ -54,7 +56,19 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void displayNota() {
-        // TODO
+        // loop semua nota, setiap statusnya akan di masukan ke text
+        String text = "";
+        for(Nota nota : NotaManager.notaList){
+            text += nota.getNotaStatus() + "\n"; 
+        }
+        // kalau masih kosong
+        if(NotaManager.notaList.length == 0){
+            text = "Belum ada nota!";
+            JOptionPane.showMessageDialog(this, text, "List Nota", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        // setelah itu di pop up
+        JOptionPane.showMessageDialog(this, text, "List Nota", JOptionPane.INFORMATION_MESSAGE);
     }
 
     /**
@@ -62,6 +76,20 @@ public class EmployeeSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void cuci() {
-        // TODO
+        // show pane pertama
+        String text = "Stand back! " + loggedInMember.getNama() + " beginning to nyuci!";
+        JOptionPane.showMessageDialog(this, text, "Nyuci Time", JOptionPane.INFORMATION_MESSAGE);
+        // loop semua nota dikerjakan, dan nanti semuanya akan di popup kecuali kalau kosong
+        text = "";
+        for(Nota nota : NotaManager.notaList){
+            text += nota.kerjakan() + "\n";
+        }
+        // cek kalau kosong
+        if(NotaManager.notaList.length == 0){
+            text = "Nothing to cuci here";
+            JOptionPane.showMessageDialog(this, text, "Nota Kosong", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        JOptionPane.showMessageDialog(this, text, "Nyuci Results", JOptionPane.INFORMATION_MESSAGE);
     }
 }

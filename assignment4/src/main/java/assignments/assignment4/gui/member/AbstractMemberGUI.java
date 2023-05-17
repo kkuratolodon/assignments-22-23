@@ -18,13 +18,16 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
     public AbstractMemberGUI(SystemCLI systemCLI) {
         super(new BorderLayout());
         this.systemCLI = systemCLI;
+        this.setBackground(Color.GRAY);
         // Set up welcome label
         welcomeLabel = new JLabel("", SwingConstants.CENTER);
         welcomeLabel.setFont(new Font("Arial", Font.BOLD, 24));
+        welcomeLabel.setForeground(Color.WHITE);
         add(welcomeLabel, BorderLayout.NORTH);
 
         // Set up footer
         loggedInAsLabel = new JLabel("", SwingConstants.CENTER);
+        loggedInAsLabel.setForeground(Color.WHITE);
         add(loggedInAsLabel, BorderLayout.SOUTH);
 
         // Initialize buttons
@@ -48,22 +51,25 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
         }
 
         JPanel buttonsPanel = new JPanel(new GridBagLayout());
+        buttonsPanel.setBackground(Color.DARK_GRAY);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.gridx = 0;
         gbc.gridy = GridBagConstraints.RELATIVE;
-        gbc.fill = GridBagConstraints.NONE;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
         gbc.anchor = GridBagConstraints.CENTER;
         gbc.weightx = 1.0;
         gbc.weighty = 0.5;
-        gbc.insets = new Insets(5, 5, 5, 5);
+        gbc.insets = new Insets(5, 50, 5, 50);
 
         for (int i = 0; i < buttons.length; i++) {
             JButton button = buttons[i];
+            button.setBackground(Color.WHITE);
             button.addActionListener(listeners[i]);
             buttonsPanel.add(button, gbc);
         }
 
         JButton logoutButton = new JButton("Logout");
+        logoutButton.setBackground(Color.WHITE);
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -88,8 +94,17 @@ public abstract class AbstractMemberGUI extends JPanel implements Loginable{
      * @return true jika ID dan password sesuai dengan instance member, false jika tidak.
      * */
     public boolean login(String id, String password) {
-        // TODO
-        return false;
+        // dptkan object member dg id & pw tsb
+        Member authMember = systemCLI.authUser(id, password);
+        // kalau tidak ditemukan return false
+        if(authMember == null) {
+            return false;
+        }
+        // kalau ditemukan
+        loggedInMember = authMember;
+        welcomeLabel.setText("Welcome " + loggedInMember.getNama() + "!");
+        loggedInAsLabel.setText("Logged in as " + loggedInMember.getId());
+        return true;
     }
 
     /**

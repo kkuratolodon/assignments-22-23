@@ -12,9 +12,10 @@ import java.awt.event.ActionListener;
 
 public class MemberSystemGUI extends AbstractMemberGUI {
     public static final String KEY = "MEMBER";
-
+    private SystemCLI systemCLI;
     public MemberSystemGUI(SystemCLI systemCLI) {
         super(systemCLI);
+        this.systemCLI = systemCLI;
     }
 
     @Override
@@ -34,8 +35,10 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * */
     @Override
     protected JButton[] createButtons() {
-        // TODO
-        return new JButton[]{
+        return new JButton[]{ 
+            // return 2 button yg dibutuhkan
+            new JButton("Saya ingin laundry"), 
+            new JButton("Lihat detail nota saya")
         };
     }
 
@@ -58,7 +61,22 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button pertama pada createButtons
      * */
     private void showDetailNota() {
-        // TODO
+        // mendapat nota list untuk membernya
+        Nota[] notaList = loggedInMember.getNotaList();
+        String text = "";
+        // loop dan masukan textnya ke string
+        for(Nota nota: notaList){
+            text += nota + "\n\n";
+        }
+        // kalau listnya kosong
+        if(notaList.length == 0){
+            text = "Kamu belum pernah laundry di CuciCuci! :'(";
+        }
+        // masukkan textnya ke scrollpane dan di pop up
+        TextArea textArea = new TextArea(text);
+        textArea.setPreferredSize(new Dimension(400, 300));
+        textArea.setEditable(false);
+        JOptionPane.showMessageDialog(null, new JScrollPane(textArea), "Detail Nota", JOptionPane.INFORMATION_MESSAGE);        
     }
 
     /**
@@ -66,7 +84,8 @@ public class MemberSystemGUI extends AbstractMemberGUI {
      * Akan dipanggil jika pengguna menekan button kedua pada createButtons
      * */
     private void createNota() {
-        // TODO
+        // method saat tekan button create nota, akan pergi ke page create nota
+        MainFrame.getInstance().navigateTo(CreateNotaGUI.KEY);
     }
 
 }
