@@ -3,6 +3,7 @@ import assignments.assignment3.LoginManager;
 import assignments.assignment3.user.Employee;
 import assignments.assignment3.user.menu.EmployeeSystem;
 import assignments.assignment3.user.menu.MemberSystem;
+import assignments.assignment4.gui.GameGUI;
 import assignments.assignment4.gui.HomeGUI;
 import assignments.assignment4.gui.LoginGUI;
 import assignments.assignment4.gui.RegisterGUI;
@@ -13,12 +14,6 @@ import assignments.assignment4.gui.member.member.MemberSystemGUI;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.util.ArrayList;
-import java.util.Random;
 
 
 public class MainFrame extends JFrame{
@@ -27,9 +22,7 @@ public class MainFrame extends JFrame{
     private final MemberSystem memberSystem = new MemberSystem();
     private final EmployeeSystem employeeSystem = new EmployeeSystem();
     private final CardLayout cards = new CardLayout();
-    private final JPanel menu = new JPanel(cards);
-    private final JPanel mainPanel = new JPanel(new BorderLayout());
-    private final JPanel gamePanel = new JPanel(null);
+    private final JPanel mainPanel = new JPanel(cards);
     private final LoginManager loginManager = new LoginManager(employeeSystem, memberSystem);
     private final HomeGUI homeGUI = new HomeGUI();
     private final RegisterGUI registerGUI = new RegisterGUI(loginManager);
@@ -37,24 +30,24 @@ public class MainFrame extends JFrame{
     private final EmployeeSystemGUI employeeSystemGUI = new EmployeeSystemGUI(employeeSystem);
     private final MemberSystemGUI memberSystemGUI = new MemberSystemGUI(memberSystem);
     private final CreateNotaGUI createNotaGUI = new CreateNotaGUI(memberSystemGUI);
+    private GameGUI gameGUI = new GameGUI();
 
     private MainFrame(){
         super("CuciCuciSystem");
-        setUndecorated(true);
         employeeSystem.addEmployee(new Employee[]{
                 new Employee("delta Epsilon Huha Huha", "ImplicitDiff"),
                 new Employee("Regret", "FansBeratKanaArima")
         });
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(1600, 432);
+        setSize(700, 432);
         setVisible(true);
         loginablePanel = new Loginable[]{
                 employeeSystemGUI,
                 memberSystemGUI,
         };
         initGUI();
+        cards.show(mainPanel, HomeGUI.KEY);
         add(mainPanel);
-        cards.show(menu, HomeGUI.KEY);
     }
 
     /**
@@ -63,147 +56,19 @@ public class MainFrame extends JFrame{
      * Be creative and have fun!
      * */
     private void initGUI() {
-        menu.add(homeGUI, HomeGUI.KEY);
-        menu.add(registerGUI, RegisterGUI.KEY);
-        menu.add(loginGUI, LoginGUI.KEY);
-        menu.add(employeeSystemGUI, EmployeeSystemGUI.KEY);
-        menu.add(memberSystemGUI, MemberSystemGUI.KEY);
-        menu.add(createNotaGUI, CreateNotaGUI.KEY);
-        mainPanel.add(menu, BorderLayout.WEST);
-        startGame();
-        mainPanel.add(gamePanel, BorderLayout.CENTER);
+        mainPanel.add(homeGUI, HomeGUI.KEY);
+        mainPanel.add(registerGUI, RegisterGUI.KEY);
+        mainPanel.add(loginGUI, LoginGUI.KEY);
+        mainPanel.add(employeeSystemGUI, EmployeeSystemGUI.KEY);
+        mainPanel.add(memberSystemGUI, MemberSystemGUI.KEY);
+        mainPanel.add(createNotaGUI, CreateNotaGUI.KEY);
+        mainPanel.add(gameGUI, GameGUI.KEY);
     }
-
-    // abaikan block ini, hanya iseng buat game pakai gui
-    int spawnTimer = 0;
-    int shootTimer = 0;
-    int speedCounter = 0;
-    int speed = 0;
-    boolean canShoot = true;
-    ArrayList<JLabel> bullets = new ArrayList<JLabel>();
-    ArrayList<JTextField> enemies = new ArrayList<JTextField>();
-    ArrayList<Integer> keyPressed = new ArrayList<Integer>();
-    Timer timer;
-    private void startGame(){
-        gamePanel.setBackground(Color.BLACK);
-        JButton player = new JButton("0");
-        player.setSize(75,50);
-        player.setFont(new Font("Arial", Font.BOLD, 30));
-        player.setHorizontalAlignment(SwingConstants.CENTER);
-        player.setLocation(0,382);
-        gamePanel.add(player);
-
-        menu.addKeyListener(new KeyListener() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                if(!keyPressed.contains(key)){
-                    keyPressed.add(key);
-                }
-                int newy = player.getLocation().y; 
-                
-                for(int keys : keyPressed){
-                    if(!timer.isRunning())
-                        break;
-                    switch (keys) {
-                        case 'W' : 
-                            newy -= 10;
-                            break;
-                        case 'S':
-                            newy += 10;
-                            break;
-                        case 32:
-                            if(!canShoot)
-                                break;
-                            JLabel bullet = new JLabel(">");
-                            bullet.setSize(100,100);
-                            bullet.setLocation(75, player.getLocation().y - 25);
-                            bullet.setForeground(Color.WHITE);
-                            bullet.setFont(new Font("Arial", Font.BOLD, 30));
-        
-                            bullets.add(bullet);
-        
-                            gamePanel.add(bullet);
-                            gamePanel.repaint();
-                            gamePanel.revalidate();
-                            canShoot = false;
-                    }
-                }
-                if(newy >= 0 && newy <= 382)
-                    player.setLocation(0, newy);
-                
-            }
-            @Override
-            public void keyReleased(KeyEvent e) {
-                keyPressed.remove(Integer.valueOf(e.getKeyCode()));
-            }
-            @Override
-            public void keyTyped(KeyEvent e) {
-                
-            }
-        });
-        menu.setFocusable(true);
-        menu.requestFocusInWindow();
-        
-        timer = new Timer(10, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                if(++speedCounter >= 200){
-                    speed++;
-                    speedCounter = 0;
-                }
-                if(++shootTimer >= 15){
-                    shootTimer = 0;
-                    canShoot = true;
-                }
-                if(++spawnTimer >= 150 - speed){
-                    spawnTimer = 0;
-                    JTextField enemy = new JTextField("5");
-                    enemy.setSize(50,50);
-                    enemy.setLocation(900, new Random().nextInt(383));
-                    enemy.setFont(new Font("Arial", Font.BOLD, 30));
-                    enemy.setHorizontalAlignment(SwingConstants.CENTER);
-                    enemy.setBackground(Color.DARK_GRAY);
-                    enemy.setForeground(Color.black);
-                    enemy.setEditable(false);
-
-                    enemies.add(enemy);
-
-                    gamePanel.add(enemy);
-                    gamePanel.repaint();
-                    gamePanel.revalidate();
-                    canShoot = false;
-                }
-                for(JLabel bullet : bullets){
-                    bullet.setLocation(bullet.getLocation().x + 10, bullet.getLocation().y);
-                    for(JTextField enemy : enemies){
-                        int xb = bullet.getLocation().x, yb = bullet.getLocation().y;
-                        int xe = enemy.getLocation().x, ye = enemy.getLocation().y;
-                        if(xb >= xe && xb <= xe + 50 ){
-                            if(yb+50 >= ye && yb + 50 <= ye + 50){    
-                                if(enemy.isVisible() && bullet.isVisible()){
-                                    bullet.setVisible(false);
-                                    enemy.setText("" + (char)(enemy.getText().charAt(0) - 1));
-                                    if(enemy.getText().equals("0")){
-                                        enemy.setVisible(false);
-                                        player.setText("" + (Integer.parseInt(player.getText()) + 1));
-                                    }
-                                
-                                }
-                            }
-                        }
-                    }
-                }
-                for(JTextField enemy : enemies){
-                    enemy.setLocation(enemy.getLocation().x - 2, enemy.getLocation().y);
-                    if(enemy.getLocation().getX() <= 75 && enemy.isVisible()){
-                        player.setForeground(Color.RED);
-                        timer.stop();
-                    }
-                }
-            }
-        });
-        timer.start();
+    // method untuk restart game
+    public void restart() {
+        mainPanel.remove(gameGUI);
+        gameGUI = new GameGUI();
+        mainPanel.add(gameGUI, GameGUI.KEY);
     }
 
     /**
@@ -225,7 +90,7 @@ public class MainFrame extends JFrame{
      * @param page -> key dari halaman yang diinginkan.
      * */
     public void navigateTo(String page){
-        cards.show(menu, page);
+        cards.show(mainPanel, page);
     }
 
     /**

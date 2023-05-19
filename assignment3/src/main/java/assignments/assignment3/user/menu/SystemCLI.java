@@ -5,7 +5,7 @@ import assignments.assignment3.user.Member;
 import java.util.Scanner;
 
 public abstract class SystemCLI {
-    public Member[] memberList = new Member[0];
+    protected Member[] memberList = new Member[0];
     protected Member loginMember;
     protected Scanner in;
 

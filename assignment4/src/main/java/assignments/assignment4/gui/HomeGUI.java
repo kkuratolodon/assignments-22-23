@@ -19,6 +19,7 @@ public class HomeGUI extends JPanel {
     private JButton loginButton;
     private JButton registerButton;
     private JButton toNextDayButton;
+    private JButton gameButton;
 
     public HomeGUI(){
         super(new BorderLayout()); // Setup layout, Feel free to make any changes
@@ -49,7 +50,7 @@ public class HomeGUI extends JPanel {
         gbc.gridy = 0;
         gbc.weighty = 1;
         gbc.insets = new Insets(10,0,0,0);
-        gbc.anchor = GridBagConstraints.NORTH;
+        gbc.anchor = GridBagConstraints.CENTER;
         gbc.fill = GridBagConstraints.HORIZONTAL;
         // dimasukan ke panel
         mainPanel.add(titleLabel, gbc);
@@ -73,7 +74,6 @@ public class HomeGUI extends JPanel {
         registerButton.setBackground(Color.WHITE);
         // set gbc
         gbc.gridy = 2;
-        gbc.anchor = GridBagConstraints.CENTER;
         // buat action listener
         registerButton.addActionListener(new ActionListener() {
             @Override
@@ -88,7 +88,6 @@ public class HomeGUI extends JPanel {
         toNextDayButton.setBackground(Color.WHITE);
         // set gbcnya
         gbc.gridy = 3;
-        gbc.anchor = GridBagConstraints.SOUTH;
         // buat action listener
         toNextDayButton.addActionListener(new ActionListener() {
             @Override
@@ -98,13 +97,26 @@ public class HomeGUI extends JPanel {
         });
         // dimasukkan ke panel
         mainPanel.add(toNextDayButton, gbc);
+        
+        gameButton = new JButton("Play Game");
+        gameButton.setBackground(Color.WHITE);
+        gbc.gridy = 4;
+        gameButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                handlePlayGame();
+            }
+        });
+        mainPanel.add(gameButton, gbc);
+        
+        
         // buat label datenya
         dateLabel = new JLabel("Hari ini: " + fmt.format(cal.getTime()));
         dateLabel.setFont(new Font("Arial", Font.BOLD, 20));
         dateLabel.setForeground(Color.WHITE);
         // set gbc
         gbc.fill = GridBagConstraints.NONE;
-        gbc.gridy = 4;
+        gbc.gridy = 5;
         // dimasukkan ke panle
         mainPanel.add(dateLabel, gbc);
     }
@@ -136,5 +148,11 @@ public class HomeGUI extends JPanel {
         NotaManager.toNextDay();
         dateLabel.setText("Hari ini: " + fmt.format(cal.getTime()));
         JOptionPane.showMessageDialog(null, "Kamu sudah sangat capek mengerjakan tp dan memutuskan untuk tidur", "Zzz...", JOptionPane.INFORMATION_MESSAGE);
+    }
+    private void handlePlayGame() {
+        String text = "Press \"W\" to go up, \"S\" to go down, and Space to shoot!";
+        JOptionPane.showMessageDialog(null, text, "Start Game", JOptionPane.INFORMATION_MESSAGE);
+        MainFrame.getInstance().navigateTo(GameGUI.KEY);
+        GameGUI.startTimer();
     }
 }
