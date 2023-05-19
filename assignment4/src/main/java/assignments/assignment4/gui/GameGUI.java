@@ -92,9 +92,8 @@ public class GameGUI extends JPanel {
                     speed++;
                     speedCounter = 0;
                 }
-                if(++shootTimer >= 15){
-                    shootTimer = 0;
-                    canShoot = !canShoot;
+                if(--shootTimer < 0){
+                    canShoot = true;
                 }
                 if(++spawnTimer >= 150 - speed){
                     spawnTimer = 0;
@@ -143,9 +142,9 @@ public class GameGUI extends JPanel {
                     if(enemy.getLocation().getX() <= 75 && enemy.isVisible()){
                         player.setForeground(Color.RED);
                         timer.stop();
-                        MainFrame.getInstance().restart();
                         String text = "Kamu mendapatkan " + player.getText() + " poin!";
                         JOptionPane.showMessageDialog(null, text, "Game Over", JOptionPane.INFORMATION_MESSAGE);
+                        MainFrame.getInstance().restart();
                         player = null;
                         MainFrame.getInstance().navigateTo(GameGUI.KEY);
                         GameGUI.startTimer();
@@ -187,6 +186,7 @@ public class GameGUI extends JPanel {
                             repaint();
                             revalidate();
                             canShoot = false;
+                            shootTimer = 10;
                     }
                 }
                 if(newy >= 0 && newy <= 345)
